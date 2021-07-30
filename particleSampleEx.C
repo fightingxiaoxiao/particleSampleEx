@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
                 {
                     label globalId =
                         startIds[allOrigProcs[proci][i]] + allOrigIds[proci][i];
-//#pragma omp critical
+                    //#pragma omp critical
                     {
                         IDList.push_back(globalId);
                     }
@@ -244,68 +244,64 @@ int main(int argc, char *argv[])
                 }
             }
 
-            if (_allPositionDict.size() == 0)
-            {
-                Info << "This is the first data." << endl;
-                system("mkdir -p postProcessing");
-            }
-            else
-            {
-                auto particleContainer = particleSampleContainer();
+            Info << "This is the first data." << endl;
+            system("mkdir -p postProcessing");
 
-                //#pragma omp parallel for
-                for (auto &key : IDList)
-                {
-                    particleContainer.particleStorage[key] = SampleParticle(allDDict[key],
-                                                                            allRhoDict[key],
-                                                                            allnParticleDict[key],
-                                                                            allPositionDict[key],
-                                                                            allUDict[key]);
+            auto particleContainer = particleSampleContainer();
 
-                    /*particleContainer._particleStorage[key] = SampleParticle(_allDDict[key],
+            //#pragma omp parallel for
+            for (auto &key : IDList)
+            {
+                particleContainer.particleStorage[key] = SampleParticle(allDDict[key],
+                                                                        allRhoDict[key],
+                                                                        allnParticleDict[key],
+                                                                        allPositionDict[key],
+                                                                        allUDict[key]);
+
+                /*particleContainer._particleStorage[key] = SampleParticle(_allDDict[key],
                                                                              _allRhoDict[key],
                                                                              _allnParticleDict[key],
                                                                              _allPositionDict[key],
                                                                              _allUDict[key]);
                     */
-                }
-
-                particleContainer.classifyFlowRateAlongHeight(startHeight,
-                                                              deltaH);
-
-                std::stringstream diamDataDir("postProcessing/diamDistribution/");
-                std::stringstream velDataDir("postProcessing/velDistribution/");
-                std::stringstream flowRateDataDir("postProcessing/flowRateDistribution/");
-
-                system("mkdir -p " + diamDataDir.str());
-                system("mkdir -p " + velDataDir.str());
-                system("mkdir -p " + flowRateDataDir.str());
-
-                std::ofstream diam(diamDataDir.str() + runTime.timeName());
-                std::ofstream vel(velDataDir.str() + runTime.timeName());
-                std::ofstream flowRate(flowRateDataDir.str() + runTime.timeName());
-
-                particleContainer.classifyDiameterAlongHeight(startHeight, deltaH);
-                particleContainer.classifyVelocityAlongHeight(startHeight, deltaH);
-
-                diam << particleContainer.writeDiameterInfo(startHeight, deltaH);
-                vel << particleContainer.writeVelocityInfo(startHeight, deltaH);
-                flowRate << particleContainer.writeFlowRateInfo(startHeight, deltaH);
-
-                diam.close();
-                vel.close();
-                flowRate.close();
-
-                totalFlowRate << runTime.timeName() << ", " << std::setprecision(std::numeric_limits<double>::digits10) << particleContainer.writeTotalFlowRate(startHeight) << std::endl;
-
-                std::ofstream flowRateInfo("postProcessing/totalFlowRate");
-                flowRateInfo << "Time, flowRate\n"
-                             << totalFlowRate.str();
-                flowRateInfo.close();
             }
+
+            particleContainer.classifyFlowRateAlongHeight(startHeight,
+                                                          deltaH);
+
+            std::stringstream diamDataDir("postProcessing/diamDistribution/");
+            std::stringstream velDataDir("postProcessing/velDistribution/");
+            std::stringstream flowRateDataDir("postProcessing/flowRateDistribution/");
+
+            system("mkdir -p " + diamDataDir.str());
+            system("mkdir -p " + velDataDir.str());
+            system("mkdir -p " + flowRateDataDir.str());
+
+            std::ofstream diam(diamDataDir.str() + runTime.timeName());
+            std::ofstream vel(velDataDir.str() + runTime.timeName());
+            std::ofstream flowRate(flowRateDataDir.str() + runTime.timeName());
+
+            particleContainer.classifyDiameterAlongHeight(startHeight, deltaH);
+            particleContainer.classifyVelocityAlongHeight(startHeight, deltaH);
+
+            diam << particleContainer.writeDiameterInfo(startHeight, deltaH);
+            vel << particleContainer.writeVelocityInfo(startHeight, deltaH);
+            flowRate << particleContainer.writeFlowRateInfo(startHeight, deltaH);
+
+            diam.close();
+            vel.close();
+            flowRate.close();
+
+            totalFlowRate << runTime.timeName() << ", " << std::setprecision(std::numeric_limits<double>::digits10) << particleContainer.writeTotalFlowRate(startHeight) << std::endl;
+
+            std::ofstream flowRateInfo("postProcessing/totalFlowRate");
+            flowRateInfo << "Time, flowRate\n"
+                         << totalFlowRate.str();
+            flowRateInfo.close();
+
             Info << "\n\n"
                  << endl;
-            
+
             /*
             _allPositionDict = allPositionDict;
             _allRhoDict = allRhoDict;
