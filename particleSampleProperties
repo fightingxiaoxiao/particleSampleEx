@@ -1,0 +1,33 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      particleTrackProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+sampleDirection x;
+
+samplePosition  0.5;
+
+
+limitMoveDistanceInOneSample 0.3;
+
+// 控制每个MPI节点颗粒列表的初始长度。
+// 用一个足够的长度去估算每个MPI节点的最大颗粒数，一般建议取场景最大颗粒数。
+// 如果设置为-1, 程序会遍历所有待采样时间步来获取这个数值。使用-1会节省内存开销，但会显著增加执行时间。
+dynamicParticleListLength 120000;
+
+startHeight 0;
+
+deltaH 0.05;
+
+// ************************************************************************* //
