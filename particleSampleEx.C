@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
             std::vector<label> IDList;
             forAll(allPositions, proci)
             {
-//#pragma omp parallel for
+                //#pragma omp parallel for
                 forAll(allPositions[proci], i)
                 {
                     label globalId =
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
             {
                 auto particleContainer = particleSampleContainer();
 
-//#pragma omp parallel for
+                //#pragma omp parallel for
                 for (auto &key : IDList)
                 {
                     particleContainer.particleStorage[key] = SampleParticle(allDDict[key],
@@ -262,18 +262,16 @@ int main(int argc, char *argv[])
                                                                             allPositionDict[key],
                                                                             allUDict[key]);
 
-                    particleContainer._particleStorage[key] = SampleParticle(_allDDict[key],
+                    /*particleContainer._particleStorage[key] = SampleParticle(_allDDict[key],
                                                                              _allRhoDict[key],
                                                                              _allnParticleDict[key],
                                                                              _allPositionDict[key],
                                                                              _allUDict[key]);
+                    */
                 }
 
                 particleContainer.classifyFlowRateAlongHeight(startHeight,
-                                                              deltaH,
-                                                              directionIndex,
-                                                              samplePosition,
-                                                              limitMoveDistanceInOneSample);
+                                                              deltaH);
 
                 std::stringstream diamDataDir("postProcessing/diamDistribution/");
                 std::stringstream velDataDir("postProcessing/velDistribution/");
@@ -307,12 +305,14 @@ int main(int argc, char *argv[])
             }
             Info << "\n\n"
                  << endl;
-
+            
+            /*
             _allPositionDict = allPositionDict;
             _allRhoDict = allRhoDict;
             _allDDict = allDDict;
             _allnParticleDict = allnParticleDict;
             _allUDict = allUDict;
+            */
         }
     }
 
