@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
                 {
                     label globalId =
                         startIds[allOrigProcs[proci][i]] + allOrigIds[proci][i];
-#pragma omp critical
+//#pragma omp critical
                     {
                         IDList.push_back(globalId);
                     }
