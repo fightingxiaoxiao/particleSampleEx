@@ -1,4 +1,4 @@
-# particleSample
+# particleSampleEx
 
 ## 简介
 
@@ -23,13 +23,13 @@ git clone https://github.com/fightingxiaoxiao/particleSample
 
 ```shell
 cd $HOME/OpenFOAM/OpenFOAM-<version>/applications/utilities/postProcessing/lagrangian
-cp -r $HOME/OpenFOAM/OpenFOAM-<version>/extend/particleSample .
+cp -r $HOME/OpenFOAM/OpenFOAM-<version>/extend/particleSampleEx .
 ```
 
 进入代码目录，执行`wmake`编译。
 
 ```shell
-cd particleSample
+cd particleSampleEx
 wmake
 
 ```
@@ -38,4 +38,4 @@ wmake
 
 将[particleSampleProperties](particleSampleProperties)放入算例的constant目录。
 
-在算例目录执行`particleSample`。如果是并行算例，执行`mpirun -n <number> particleSample -parallel`。
+在算例目录执行`particleSampleEx`。如果是并行算例，执行`mpirun -n <number> particleSampleEx -parallel`。
