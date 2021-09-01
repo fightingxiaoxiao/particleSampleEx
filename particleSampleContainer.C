@@ -81,6 +81,24 @@ namespace Foam
         }
     }
 
+    void particleSampleContainer::classifyConcerntrationAlongHeight(scalar startHeight,
+                                                                    scalar deltaH)
+    {
+        for (auto &p : particleStorage)
+        {
+            if (p.second.position[2] - startHeight < 0)
+                continue;
+            label hIndex = static_cast<label>((p.second.position[2] - startHeight) / deltaH);
+
+            if (massRateList.find(hIndex) == massRateList.end())
+            {
+                concerntrationList[hIndex] = 0.;
+            }
+
+            concerntrationList[hIndex] += p.second.mass();
+        }
+    }
+
     word particleSampleContainer::writeDiameterInfo(scalar startHeight,
                                                     scalar deltaH)
     {
@@ -130,6 +148,18 @@ namespace Foam
         }
 
         return writeFlowRateInfo.str();
+    }
+
+    word particleSampleContainer::writeConcerntrationInfo(scalar startHeight,
+                                                          scalar deltaH)
+    {
+        std::stringstream writeConcerntrationInfo("");
+        for (auto &m : concerntrationList)
+        {
+            writeConcerntrationInfo << startHeight + m.first * deltaH << ", " << m.second << std::endl;
+        }
+
+        return writeConcerntrationInfo.str();
     }
 
     scalar particleSampleContainer::writeTotalFlowRate(scalar startHeight)

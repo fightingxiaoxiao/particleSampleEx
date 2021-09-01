@@ -21,6 +21,8 @@ namespace Foam
 
         std::map<label, scalar, std::less<label>> massRateList;
 
+        std::map<label, scalar, std::less<label>> concerntrationList;
+
         void classifyDiameterAlongHeight(scalar startHeight, scalar deltaH);
 
         void classifyVelocityAlongHeight(scalar startHeight, scalar deltaH);
@@ -34,6 +36,9 @@ namespace Foam
         void classifyFlowRateAlongHeight(scalar startHeight,
                                          scalar deltaH);
 
+        void classifyConcerntrationAlongHeight(scalar startHeight,
+                                               scalar deltaH);
+
         word writeDiameterInfo(scalar startHeight,
                                scalar deltaH);
 
@@ -42,6 +47,9 @@ namespace Foam
 
         word writeFlowRateInfo(scalar startHeight,
                                scalar deltaH);
+
+        word writeConcerntrationInfo(scalar startHeight,
+                                     scalar deltaH);
 
         scalar writeTotalFlowRate(scalar startHeight);
     };

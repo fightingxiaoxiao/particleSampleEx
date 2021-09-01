@@ -268,18 +268,23 @@ int main(int argc, char *argv[])
 
             particleContainer.classifyFlowRateAlongHeight(startHeight,
                                                           deltaH);
+            particleContainer.classifyConcerntrationAlongHeight(startHeight,
+                                                                deltaH);
 
             std::stringstream diamDataDir("postProcessing/diamDistribution/");
             std::stringstream velDataDir("postProcessing/velDistribution/");
             std::stringstream flowRateDataDir("postProcessing/flowRateDistribution/");
+            std::stringstream concerntrationDir("postProcessing/concerntrationDistribution/");
 
             system("mkdir -p " + diamDataDir.str());
             system("mkdir -p " + velDataDir.str());
             system("mkdir -p " + flowRateDataDir.str());
+            system("mkdir -p " + concerntrationDir.str());
 
             std::ofstream diam(diamDataDir.str() + runTime.timeName());
             std::ofstream vel(velDataDir.str() + runTime.timeName());
             std::ofstream flowRate(flowRateDataDir.str() + runTime.timeName());
+            std::ofstream concerntration(concerntrationDir.str() + runTime.timeName());
 
             particleContainer.classifyDiameterAlongHeight(startHeight, deltaH);
             particleContainer.classifyVelocityAlongHeight(startHeight, deltaH);
@@ -287,10 +292,13 @@ int main(int argc, char *argv[])
             diam << particleContainer.writeDiameterInfo(startHeight, deltaH);
             vel << particleContainer.writeVelocityInfo(startHeight, deltaH);
             flowRate << particleContainer.writeFlowRateInfo(startHeight, deltaH);
-
+            concerntration << particleContainer.writeConcerntrationInfo(startHeight, deltaH);
+            
             diam.close();
             vel.close();
             flowRate.close();
+            concerntration.close();
+
 
             totalFlowRate << runTime.timeName() << ", " << std::setprecision(std::numeric_limits<double>::digits10) << particleContainer.writeTotalFlowRate(startHeight) << std::endl;
 
