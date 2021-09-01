@@ -77,7 +77,7 @@ namespace Foam
                 massRateList[hIndex] = 0.;
             }
 
-            massRateList[hIndex] += p.second.mass() * mag(p.second.U);
+            massRateList[hIndex] += p.second.mass() * p.second.U[0];
         }
     }
 
